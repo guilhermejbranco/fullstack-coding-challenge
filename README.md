@@ -5,13 +5,14 @@ When running the application for the first time, there are some database configu
 Create a database with the name **unbabel_challenge** or change the variable **DB_NAME**
 in the config.py file to the database you want to use.
 
-Create a user with the name **postgres** and password **root**, or change the variable DB_USER
-and DB_PW in the config.py file to the user and password you want to use.
+Create a user with the name **postgres** and password **root**, or change the variable **DB_USER**
+and **DB_PW** in the config.py file to the user and password you want to use.
 
 After that, you're all set up!
 
 ## Run the application
 Execute the command `py routes.py` and the application will be running on localhost:5500 by default.
+
 The url and port can also be changed in the config.py file.
 
 ## Unit Testing
