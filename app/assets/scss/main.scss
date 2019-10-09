@@ -1,0 +1,36 @@
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #a8c0ff;
+$secondary-color: #3954BF;
+$light-gray: rgb(245,245,245);
+
+body {
+  font: 100% $font-stack;
+}
+
+.background{
+background-color: $primary-color;
+background-image: linear-gradient(62deg, $primary-color 0%, $secondary-color 100%);
+position:fixed;
+  width:100%;
+  height:100%;
+  top:80%;
+  left:0;
+  transform: skewY(10deg);
+  z-index:-1
+}
+
+#translationslist{
+  li:nth-child(odd) {
+    background:$light-gray ;
+  }
+}
+
+.translatesubmitbutton{
+  bottom:0;
+}
+
+.languagesselect{
+  border-radius: 5px;
+    padding: 3px;
+    color: gray;
+}

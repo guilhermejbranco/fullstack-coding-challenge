@@ -1,0 +1,160 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if page_data.error_message | length%}
+<div class="row">
+  <div class="col-1 col-sm-1 col-md-2"></div>
+  <div class="col-10 col-sm-10 col-md-8">
+    <div class="alert alert-danger" role="alert">
+      {{page_data.error_message}}
+    </div>
+  </div>
+  <div class="col-1 col-sm-1 col-md-2"></div>
+</div>
+{%endif%}
+
+<div class="jumbo">
+
+
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 text-center">
+        <div class="pb-2">
+        <div class="row">
+          <div class="col-5 col-sm-5 col-md-5 text-right">
+            <form action="http://{{page_data.url}}:{{page_data.port}}/changelang" method="POST">
+              <select name="sourcelanguage" class="languagesselect" onchange="this.form.submit()">
+                <option hidden selected value="{'name': '{{page_data.source_language.name}}', 'shortname': '{{page_data.source_language.shortname}}'}">
+                  {{page_data.source_language.name}} ({{page_data.source_language.shortname}})
+                </option>
+                {%for i in range(0, page_data.avail_langs_len)%}
+                {% if not page_data.avail_langs[i].name in page_data.source_language.name %}
+                <option value="{'name': '{{page_data.avail_langs[i].name}}', 'shortname': '{{page_data.avail_langs[i].shortname}}'}">
+                  {{page_data.avail_langs[i].name}} ({{page_data.avail_langs[i].shortname}})
+                </option>
+                {%endif%}
+                {%endfor%}
+              </select>
+            </form>
+          </div>
+          <div class="col-2 col-sm-2 col-md-2 pt-1">
+            <h6>
+              <strong>
+                TO
+              </strong>
+            </h6>
+          </div>
+          <div class="col-5 col-sm-5 col-md-5 text-left">
+            <form action="http://{{page_data.url}}:{{page_data.port}}/changelang" method="POST">
+              <select name="targetlanguage" class="languagesselect" onchange="this.form.submit()">
+                <option hidden selected value="{'name': '{{page_data.target_language.name}}', 'shortname': '{{page_data.target_language.shortname}}'}">
+                  {{page_data.target_language.name}} ({{page_data.target_language.shortname}})
+                </option>
+                {%for i in range(0, page_data.avail_langs_len)%}
+                {% if not page_data.avail_langs[i].name in page_data.target_language.name %}
+                <option value="{'name': '{{page_data.avail_langs[i].name}}', 'shortname': '{{page_data.avail_langs[i].shortname}}'}">
+                  {{page_data.avail_langs[i].name}} ({{page_data.avail_langs[i].shortname}})
+                </option>
+                {%endif%}
+                {%endfor%}
+              </select>
+            </form>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+
+  <div class="row  mt-2 mb-5">
+    <div class="col-1 col-sm-1 col-md-3"></div>
+    <div class="col-7 col-sm-7 col-md-6 text-center">
+      <form action="http://{{page_data.url}}:{{page_data.port}}/home" method="POST" id="translateform">
+          <textarea name="String" id="" cols="1" rows="5" class="w-100 align-bottom" maxlength="{{page_data.max_text_len}}"></textarea>
+      </form>
+    </div>
+    <div class="col-3 col-sm-3 col-md-3">
+      <button class="btn btn-primary btn-sm align-baseline ml-1 translatesubmitbutton position-absolute" type="submit" form="translateform">
+        Submit
+      </button>
+    </div>
+    <div class="col-1 col-sm-1 col-md-3"></div>
+  </div>
+
+  <div class="translation-list">
+
+    <div class="background"></div>
+    <div class="row mt-2">
+      <div class="col-1 col-sm-1 col-md-2"></div>
+      <div class="col-10 col-sm-10 col-md-8">
+        <h4>
+          <strong class="text-uppercase">
+            Recent translations
+          </strong>
+        </h4>
+        <ul class="list-group " id="translationslist">
+          {% if page_data.data_len == 0 %}
+          <li class="list-group-item">
+            <div class="text-center">
+              No translations requested.
+            </div>
+          </li>
+          {% else %}
+          {%for i in range(0, page_data.data_len)%}
+          {% set splitted_strings = page_data.data[i] | string_split(page_data.column_separator) %}
+          {% set text = splitted_strings[0] %}
+          {% set translated_text = splitted_strings[1] %}
+          {% set status = splitted_strings[2] %}
+          {% set sourcelang = splitted_strings[3] %}
+          {% set targetlang = splitted_strings[4] %}
+
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col col-md-4">
+                <div style="opacity:0.5">
+                  Requested <small>| {{sourcelang}}</small>
+                </div>
+                {{text}}
+              </div>
+              <div class="col col-md-4">
+                <div style="opacity:0.5">
+                  Translation <small>| {{targetlang}}</small>
+                </div>
+
+                {%if splitted_strings[1] is defined %}
+                {{translated_text}}
+                {%else%}
+                Translation not yet available.
+                {%endif%}
+              </div>
+              <div class="col col-md-4">
+                <div style="opacity:0.5">
+                  Status
+                </div>
+                {% if 'pending' in status %}
+                <span class="badge badge-warning">
+                  {% elif 'requested' in status %}
+                  <span class="badge badge-secondary">
+                    {% else %}
+                    <span class="badge badge-success">
+                      {% endif %}
+                      {{status}}
+                    </span>
+              </div>
+            </div>
+          </li>
+          {%endfor%}
+          {%endif%}
+        </ul>
+      </div>
+      <div class="col-1 col-sm-1 col-md-2"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<script>
+  $('.dropdown-toggle').dropdown()
+</script>

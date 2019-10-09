@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" >
+    <meta charset="UTF-8">
+    <title>{{page_data.page_title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<header class="pb-5">
+
+</header>
+<div class="">
+
+    {% block content %}
+    {% endblock content%}
+</div>
+
+<footer class="pt-5">
+
+</footer>
+
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}" ></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" ></script>
+</body>
+</html>
