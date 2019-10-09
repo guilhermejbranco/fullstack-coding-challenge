@@ -11,9 +11,8 @@ and DB_PW in the config.py file to the user and password you want to use.
 After that, you're all set up!
 
 ## Run the application
-`py routes.py`
-The application will be running on localhost:5500 by default, but can also be
-changed in the config.py file.
+Execute the command `py routes.py` and the application will be running on localhost:5500 by default.
+The url and port can also be changed in the config.py file.
 
 ## Unit Testing
 
